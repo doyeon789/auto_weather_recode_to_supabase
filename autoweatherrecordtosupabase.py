@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
+import pytz  # pytz 임포트
 
 from supabase import create_client, Client
 
@@ -11,8 +12,11 @@ supabase: Client = create_client(url, key)
 API_KEY = "Ci_fVsYCSNKv31bGAijSTA"
 STN = 108  # 서울
 
-# 기준 시각: 현재 시각에서 분/초/마이크로초를 0으로 맞춤 (마지막 정시)
-now = datetime.now()
+# pytz로 한국 시간대 설정
+kst = pytz.timezone('Asia/Seoul')
+now = datetime.now(kst)
+
+# 기준 시각: 한국 시간 기준 현재 시각에서 분/초/마이크로초를 0으로 맞춤 (마지막 정시)
 END_TIME = now.replace(minute=0, second=0, microsecond=0)
 START_TIME = END_TIME  # 단일 시각 요청용
 DELTA = timedelta(minutes=3)  # (사용 안됨)
@@ -25,7 +29,7 @@ data = {
     "r_insolation": None
 }
 
-print(f"📅 기준 시각: {END_TIME.strftime('%Y-%m-%d %H:%M')} (마지막 정시)")
+print(f"📅 기준 시각: {END_TIME.strftime('%Y-%m-%d %H:%M')} (마지막 정시, KST)")
 
 def fetch_data_for_time(target_time):
     TM = target_time.strftime("%Y%m%d%H%M")
