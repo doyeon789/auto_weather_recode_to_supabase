@@ -25,7 +25,6 @@ data = {
     "r_timestamp": None,
     "r_temperature": None,
     "r_humidity": None,
-    "r_weather_condition": None,
     "r_insolation": None
 }
 
@@ -64,8 +63,7 @@ def fetch_data_for_time(target_time):
                 "timestamp": ts,
                 "Temperature": float(parts[11]),
                 "Humidity": float(parts[13]),
-                "weather_condition": float(parts[34]),
-                "insolation": float(parts[35])
+                "insolation": float(parts[34])
             }
 
             records.append(record)
@@ -89,7 +87,6 @@ if records:
         "r_timestamp": first["timestamp"],
         "r_temperature": first["Temperature"],
         "r_humidity": first["Humidity"],
-        "r_weather_condition": first["weather_condition"],
         "r_insolation": first["insolation"]
     })
 else:
